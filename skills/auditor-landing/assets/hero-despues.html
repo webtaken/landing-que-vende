@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{MARCA}} — {{TITULAR}}</title>
+<!--
+  Hero "después" para la comparación antes/después del auditor.
+  Reemplaza cada marcador {{…}}. Usa los colores y la fuente de la marca original
+  (salen de datos.json → ctas[].color_fondo y fuentes); no inventes una marca nueva.
+  Bloques opcionales: borra el bloque entero si no hay dato real para llenarlo.
+-->
+<style>
+  :root {
+    --fondo: {{COLOR_FONDO}};          /* p. ej. #FFFFFF */
+    --texto: {{COLOR_TEXTO}};          /* p. ej. #14161A */
+    --suave: {{COLOR_TEXTO_SUAVE}};    /* p. ej. #4B5160 */
+    --primario: {{COLOR_PRIMARIO}};    /* color del botón, p. ej. #0F7B45 */
+    --sobre-primario: #FFFFFF;
+    --fuente: {{FUENTE}}, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font-family: var(--fuente); -webkit-font-smoothing: antialiased; }
+  header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; max-width: 1120px; margin: 0 auto; }
+  .marca { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+  .tel { color: var(--suave); text-decoration: none; font-size: 15px; }
+  .hero { max-width: 1120px; margin: 0 auto; padding: 28px 20px 48px; display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1.1fr 0.9fr; padding: 64px 20px 96px; gap: 56px; } }
+  .para { display: inline-block; font-size: 14px; font-weight: 600; color: var(--primario); margin-bottom: 12px; }
+  h1 { font-size: clamp(30px, 7.5vw, 54px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 16px; text-wrap: balance; }
+  .sub { font-size: clamp(17px, 2.2vw, 20px); line-height: 1.5; color: var(--suave); margin: 0 0 24px; max-width: 34em; }
+  .cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 24px;
+         background: var(--primario); color: var(--sobre-primario); font-weight: 700; font-size: 17px; border-radius: 10px; text-decoration: none; width: 100%; text-align: center; }
+  @media (min-width: 600px) { .cta { width: auto; } }
+  .riesgo { font-size: 14px; color: var(--suave); margin: 10px 0 0; }
+  .prueba { display: flex; align-items: center; gap: 10px; margin-top: 22px; font-size: 15px; color: var(--suave); }
+  .prueba strong { color: var(--texto); }
+  .estrellas { color: #E2A400; letter-spacing: 1px; }
+  .visual { border-radius: 14px; overflow: hidden; background: #EEF0F2; aspect-ratio: 4 / 3; }
+  .visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .testimonio { margin-top: 18px; padding-left: 14px; border-left: 3px solid var(--primario); font-size: 15px; line-height: 1.5; color: var(--suave); }
+  .testimonio b { display: block; color: var(--texto); font-size: 14px; margin-top: 6px; }
+</style>
+</head>
+<body>
+  <header>
+    <span class="marca">{{MARCA}}</span>
+    <!-- Opcional: un solo dato de contacto en lugar de un menú con 5 enlaces -->
+    <a class="tel" href="tel:{{TELEFONO}}">{{TELEFONO_VISIBLE}}</a>
+  </header>
+
+  <main class="hero">
+    <div>
+      <span class="para">{{PARA_QUIEN}}</span>                 <!-- p. ej. "Para dueños de clínicas en Lima" -->
+      <h1>{{TITULAR}}</h1>                                     <!-- qué consigues + en cuánto / con qué diferencia -->
+      <p class="sub">{{SUBTITULAR}}</p>                         <!-- cómo funciona en una frase + quita la objeción nº 1 -->
+      <a class="cta" href="{{CTA_URL}}">{{CTA_TEXTO}}</a>       <!-- verbo + lo que recibe: "Agendar mi valoración gratis" -->
+      <p class="riesgo">{{REDUCTOR_DE_RIESGO}}</p>              <!-- p. ej. "Te respondemos en menos de 10 min · Sin compromiso" -->
+      <div class="prueba">
+        <span class="estrellas">★★★★★</span>
+        <span><strong>{{CALIFICACION}}</strong> {{FUENTE_PRUEBA}}</span>  <!-- p. ej. "4.9 en Google · 312 reseñas" (solo si es real) -->
+      </div>
+    </div>
+    <div>
+      <div class="visual"><img src="{{IMAGEN}}" alt="{{ALT_IMAGEN}}"></div>  <!-- foto real del servicio/resultado, no ilustración abstracta -->
+      <p class="testimonio">"{{TESTIMONIO}}"<b>{{NOMBRE_TESTIMONIO}} · {{CONTEXTO_TESTIMONIO}}</b></p>
+    </div>
+  </main>
+</body>
+</html>

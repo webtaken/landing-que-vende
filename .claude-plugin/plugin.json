@@ -1,0 +1,13 @@
+{
+  "name": "landing-que-vende",
+  "version": "1.0.0",
+  "description": "Skills para Claude Code que auditan y escriben landing pages que venden: auditor-landing (puntúa una landing y etiqueta sus defectos con capturas antes/después) y landing-pyme (estructura y copy de landing para negocios de servicios que cierran por WhatsApp o cita).",
+  "author": {
+    "name": "Saul Rojas (@saulautomatiza)",
+    "url": "https://www.instagram.com/saulautomatiza/"
+  },
+  "homepage": "https://github.com/webtaken/landing-que-vende",
+  "repository": "https://github.com/webtaken/landing-que-vende",
+  "license": "MIT",
+  "keywords": ["landing", "conversion", "cro", "copywriting", "pymes", "auditoria", "espanol"]
+}

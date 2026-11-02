@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{NEGOCIO}} — {{TITULO_SEO}}</title>
+<meta name="description" content="{{META_DESCRIPCION}}">
+<!--
+  Plantilla de landing para pymes de servicios (un archivo, sin dependencias).
+  - Reemplaza cada marcador {{…}}.
+  - Bloques marcados REPEAT:x … /REPEAT:x → duplica el bloque por ítem y borra esos comentarios.
+  - Bloques marcados OPCIONAL:x … /OPCIONAL:x → borra el bloque entero si no hay dato REAL.
+  - Todos los botones de acción usan el mismo CTA_URL, p. ej. un enlace wa.me con mensaje prellenado.-->
+<style>
+  :root {
+    --fondo: {{COLOR_FONDO}};            /* #FFFFFF */
+    --fondo-alt: {{COLOR_FONDO_ALT}};    /* #F5F6F4 — para alternar secciones */
+    --texto: {{COLOR_TEXTO}};            /* #15171A */
+    --suave: {{COLOR_TEXTO_SUAVE}};      /* #4A505C */
+    --borde: #E3E5E8;
+    --primario: {{COLOR_PRIMARIO}};      /* color del botón; buen contraste con blanco */
+    --sobre-primario: #FFFFFF;
+    --fuente: {{FUENTE}}, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --ancho: 1080px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 17px/1.6 var(--fuente); -webkit-font-smoothing: antialiased; }
+  img { max-width: 100%; display: block; }
+  .contenedor { max-width: var(--ancho); margin: 0 auto; padding: 0 20px; }
+  section { padding: 64px 0; }
+  section.alt { background: var(--fondo-alt); }
+  h1, h2, h3 { line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 14px; text-wrap: balance; }
+  h1 { font-size: clamp(31px, 7.4vw, 54px); }
+  h2 { font-size: clamp(25px, 4.6vw, 36px); }
+  h3 { font-size: 19px; letter-spacing: -0.01em; }
+  p { margin: 0 0 14px; }
+  .suave { color: var(--suave); }
+  .intro { max-width: 40em; margin-bottom: 32px; }
+
+  /* Botón principal: único estilo de acción en toda la página */
+  .cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 14px 26px;
+         background: var(--primario); color: var(--sobre-primario); font-weight: 700; font-size: 17px;
+         border-radius: 10px; text-decoration: none; width: 100%; text-align: center; }
+  @media (min-width: 600px) { .cta { width: auto; } }
+  .riesgo { font-size: 14px; color: var(--suave); margin-top: 10px; }
+
+  header { padding: 14px 0; border-bottom: 1px solid var(--borde); }
+  header .contenedor { display: flex; justify-content: space-between; align-items: center; }
+  .marca { font-weight: 800; font-size: 18px; }
+  .tel { color: var(--suave); text-decoration: none; font-size: 15px; }
+
+  .hero { padding: 32px 0 56px; }
+  .hero .contenedor { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 900px) { .hero { padding: 72px 0 88px; } .hero .contenedor { grid-template-columns: 1.1fr 0.9fr; gap: 56px; } }
+  .para { font-size: 14px; font-weight: 700; color: var(--primario); margin-bottom: 10px; display: block; }
+  .sub { font-size: clamp(17px, 2.2vw, 20px); color: var(--suave); max-width: 34em; margin-bottom: 24px; }
+  .prueba-hero { display: flex; gap: 10px; align-items: center; margin-top: 20px; font-size: 15px; color: var(--suave); }
+  .prueba-hero strong { color: var(--texto); }
+  .estrellas { color: #E2A400; letter-spacing: 1px; }
+  .foto { border-radius: 14px; overflow: hidden; background: #E9EBEE; aspect-ratio: 4 / 3; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+
+  .dos-col { display: grid; gap: 28px; align-items: center; }
+  @media (min-width: 900px) { .dos-col { grid-template-columns: 1fr 1fr; gap: 56px; } }
+
+  .logos { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; justify-content: center; opacity: .7; filter: grayscale(1); }
+  .logos img { height: 28px; width: auto; }
+
+  .pasos { display: grid; gap: 20px; counter-reset: paso; }
+  @media (min-width: 800px) { .pasos { grid-template-columns: repeat(3, 1fr); } }
+  .paso::before { counter-increment: paso; content: counter(paso); display: inline-grid; place-items: center; width: 36px; height: 36px;
+                  border-radius: 50%; background: var(--primario); color: var(--sobre-primario); font-weight: 800; margin-bottom: 12px; }
+
+  .beneficios { display: grid; gap: 24px; }
+  @media (min-width: 800px) { .beneficios { grid-template-columns: repeat(2, 1fr); gap: 32px 48px; } }
+
+  .testimonios { display: grid; gap: 20px; }
+  @media (min-width: 800px) { .testimonios { grid-template-columns: repeat(3, 1fr); } }
+  .testimonio { background: var(--fondo); border: 1px solid var(--borde); border-radius: 12px; padding: 22px; }
+  .testimonio .quien { display: flex; gap: 12px; align-items: center; margin-top: 14px; font-size: 14px; }
+  .testimonio .quien img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+  .testimonio .resultado { font-weight: 700; }
+
+  .oferta { border: 2px solid var(--primario); border-radius: 14px; padding: 28px; max-width: 560px; }
+  .precio { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 6px; }
+  .oferta ul { padding-left: 20px; margin: 16px 0 22px; }
+
+  details { border-bottom: 1px solid var(--borde); padding: 16px 0; }
+  summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::after { content: "+"; font-weight: 400; color: var(--suave); }
+  details[open] summary::after { content: "–"; }
+  details p { margin: 10px 0 0; color: var(--suave); }
+
+  .final { text-align: center; }
+  .final .intro { margin-left: auto; margin-right: auto; }
+
+  footer { padding: 28px 0 96px; font-size: 14px; color: var(--suave); border-top: 1px solid var(--borde); }
+  footer a { color: var(--suave); }
+
+  /* Botón flotante de WhatsApp (solo móvil) */
+  .flotante { position: fixed; right: 16px; bottom: 16px; width: 58px; height: 58px; border-radius: 50%; background: #25D366;
+              display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.22); z-index: 10; }
+  .flotante svg { width: 30px; height: 30px; fill: #fff; }
+  @media (min-width: 900px) { .flotante { display: none; } footer { padding-bottom: 28px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor">
+    <span class="marca">{{NEGOCIO}}</span>
+    <!-- OPCIONAL:telefono -->
+    <a class="tel" href="tel:{{TELEFONO}}">{{TELEFONO_VISIBLE}}</a>
+    <!-- /OPCIONAL:telefono -->
+  </div>
+</header>
+
+<!-- 1. HERO: qué, para quién, qué gano, qué hago, por qué creer -->
+<section class="hero">
+  <div class="contenedor">
+    <div>
+      <span class="para">{{PARA_QUIEN}}</span>
+      <h1>{{TITULAR}}</h1>
+      <p class="sub">{{SUBTITULAR}}</p>
+      <a class="cta" href="{{CTA_URL}}">{{CTA_TEXTO}}</a>
+      <p class="riesgo">{{REDUCTOR_RIESGO}}</p>
+      <!-- OPCIONAL:resenas -->
+      <div class="prueba-hero"><span class="estrellas">★★★★★</span><span><strong>{{NOTA}}</strong> {{FUENTE_RESENAS}}</span></div>
+      <!-- /OPCIONAL:resenas -->
+    </div>
+    <div class="foto"><img src="{{FOTO_HERO}}" alt="{{ALT_FOTO_HERO}}" width="800" height="600"></div>
+  </div>
+</section>
+
+<!-- OPCIONAL:logos -->
+<section class="alt" style="padding:28px 0">
+  <div class="contenedor">
+    <p class="suave" style="text-align:center;font-size:14px;margin-bottom:16px">{{TEXTO_LOGOS}}</p>
+    <div class="logos">
+      <!-- REPEAT:logo --><img src="{{LOGO_SRC}}" alt="{{LOGO_ALT}}" loading="lazy"><!-- /REPEAT:logo -->
+    </div>
+  </div>
+</section>
+<!-- /OPCIONAL:logos -->
+
+<!-- OPCIONAL:problema (landing larga: el cliente aún no sabe que esto lo resuelve) -->
+<section>
+  <div class="contenedor">
+    <h2>{{TITULO_PROBLEMA}}</h2>
+    <div class="intro suave">{{TEXTO_PROBLEMA}}</div>
+  </div>
+</section>
+<!-- /OPCIONAL:problema -->
+
+<!-- 2. CÓMO FUNCIONA: quitar la incertidumbre de "¿qué pasa después de escribir?" -->
+<section class="alt">
+  <div class="contenedor">
+    <h2>{{TITULO_PASOS}}</h2>
+    <div class="pasos">
+      <!-- REPEAT:paso -->
+      <div class="paso"><h3>{{PASO_TITULO}}</h3><p class="suave">{{PASO_TEXTO}}</p></div>
+      <!-- /REPEAT:paso -->
+    </div>
+  </div>
+</section>
+
+<!-- 3. BENEFICIOS / RESULTADOS: lo que cambia para el cliente (no la lista de servicios) -->
+<section>
+  <div class="contenedor">
+    <h2>{{TITULO_BENEFICIOS}}</h2>
+    <p class="intro suave">{{INTRO_BENEFICIOS}}</p>
+    <div class="beneficios">
+      <!-- REPEAT:beneficio -->
+      <div><h3>{{BENEFICIO_TITULO}}</h3><p class="suave">{{BENEFICIO_TEXTO}}</p></div>
+      <!-- /REPEAT:beneficio -->
+    </div>
+  </div>
+</section>
+
+<!-- 4. PRUEBA: testimonios con nombre, contexto, resultado y foto -->
+<!-- OPCIONAL:testimonios -->
+<section class="alt">
+  <div class="contenedor">
+    <h2>{{TITULO_TESTIMONIOS}}</h2>
+    <div class="testimonios">
+      <!-- REPEAT:testimonio -->
+      <figure class="testimonio" style="margin:0">
+        <p class="resultado">{{TESTIMONIO_RESULTADO}}</p>
+        <blockquote style="margin:0" class="suave">"{{TESTIMONIO_TEXTO}}"</blockquote>
+        <figcaption class="quien"><img src="{{TESTIMONIO_FOTO}}" alt="" loading="lazy"><span><strong>{{TESTIMONIO_NOMBRE}}</strong><br>{{TESTIMONIO_CONTEXTO}}</span></figcaption>
+      </figure>
+      <!-- /REPEAT:testimonio -->
+    </div>
+  </div>
+</section>
+<!-- /OPCIONAL:testimonios -->
+
+<!-- OPCIONAL:equipo (servicios de confianza: salud, legal, hogar) -->
+<section>
+  <div class="contenedor dos-col">
+    <div>
+      <h2>{{TITULO_EQUIPO}}</h2>
+      <p class="suave">{{TEXTO_EQUIPO}}</p>
+    </div>
+    <div class="foto"><img src="{{FOTO_EQUIPO}}" alt="{{ALT_FOTO_EQUIPO}}" loading="lazy" width="800" height="600"></div>
+  </div>
+</section>
+<!-- /OPCIONAL:equipo -->
+
+<!-- OPCIONAL:oferta (precio "desde" o primera consulta) -->
+<section class="alt">
+  <div class="contenedor">
+    <div class="oferta">
+      <h2 style="font-size:24px">{{TITULO_OFERTA}}</h2>
+      <div class="precio">{{PRECIO}}</div>
+      <ul>
+        <!-- REPEAT:incluye --><li>{{INCLUYE}}</li><!-- /REPEAT:incluye -->
+      </ul>
+      <a class="cta" href="{{CTA_URL}}">{{CTA_TEXTO}}</a>
+      <p class="riesgo">{{GARANTIA}}</p>
+    </div>
+  </div>
+</section>
+<!-- /OPCIONAL:oferta -->
+
+<!-- 5. FAQ: las objeciones reales, respondidas sin rodeos -->
+<section>
+  <div class="contenedor" style="max-width:760px">
+    <h2>{{TITULO_FAQ}}</h2>
+    <!-- REPEAT:faq -->
+    <details><summary>{{PREGUNTA}}</summary><p>{{RESPUESTA}}</p></details>
+    <!-- /REPEAT:faq -->
+  </div>
+</section>
+
+<!-- 6. CTA FINAL: misma acción, mismo botón -->
+<section class="alt final">
+  <div class="contenedor">
+    <h2>{{TITULO_FINAL}}</h2>
+    <p class="intro suave">{{TEXTO_FINAL}}</p>
+    <a class="cta" href="{{CTA_URL}}">{{CTA_TEXTO}}</a>
+    <p class="riesgo">{{REDUCTOR_RIESGO}}</p>
+  </div>
+</section>
+
+<footer>
+  <div class="contenedor">
+    <p>© {{ANIO}} {{NEGOCIO}} · {{DIRECCION_O_ZONA}} · <a href="{{URL_PRIVACIDAD}}">Aviso de privacidad</a> · <a href="{{URL_TERMINOS}}">Términos</a></p>
+  </div>
+</footer>
+
+<!-- OPCIONAL:flotante (solo si la acción es WhatsApp) -->
+<a class="flotante" href="{{CTA_URL}}" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.3 8.6 3.3 15.6c0 2.5.7 4.8 2 6.8L3 29l6.8-2.2c1.9 1 4 1.6 6.2 1.6 7 0 12.7-5.6 12.7-12.6S23 3 16 3zm0 23c-2 0-3.9-.6-5.5-1.6l-.4-.2-4 1.3 1.3-3.9-.3-.4a10.3 10.3 0 0 1-1.6-5.6C5.5 9.9 10.2 5.3 16 5.3s10.5 4.6 10.5 10.3S21.8 26 16 26zm5.8-7.7c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6.3-.5c.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.9-.8 2.1-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3z"/></svg>
+</a>
+<!-- /OPCIONAL:flotante -->
+
+</body>
+</html>

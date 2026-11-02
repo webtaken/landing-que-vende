@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "landing-que-vende",
+  "owner": {
+    "name": "Saul Rojas (@saulautomatiza)",
+    "url": "https://www.instagram.com/saulautomatiza/"
+  },
+  "plugins": [
+    {
+      "name": "landing-que-vende",
+      "source": "./",
+      "description": "Audita tu landing (puntaje + defectos etiquetados sobre la captura) y escribe la estructura y el copy de una landing que vende para pymes de servicios.",
+      "version": "1.0.0",
+      "category": "marketing",
+      "homepage": "https://github.com/webtaken/landing-que-vende",
+      "keywords": ["landing", "conversion", "cro", "copywriting", "pymes", "espanol"]
+    }
+  ]
+}
